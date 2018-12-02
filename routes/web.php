@@ -15,4 +15,8 @@
 //    return view('welcome');
 //});
 
-Route::get('/', 'PostController@index');
+//Route::get('/', 'PostController@index');
+
+Route::resource('posts', 'PostController', ['only' => [
+    'index', 'create', 'store'
+]]);

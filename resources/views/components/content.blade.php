@@ -7,3 +7,5 @@
     </h1>
 
 @yield('content.main')
+
+</div>

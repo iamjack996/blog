@@ -76,6 +76,5 @@
 
     <hr>
 
-    </div>
     <!-- /.container -->
 @endsection
