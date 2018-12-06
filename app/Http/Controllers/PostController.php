@@ -14,14 +14,20 @@ class PostController extends Controller
     {
         $this->postsModel = $postsModel;
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws Exception
      */
     public function index()
     {
-        return view('posts.index');
+        try {
+            $posts = $this->postsModel->index();
+        } catch (Exception $e) {
+            dd($e);
+            throw new Exception('Posts Get All Failed');
+        }
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -35,29 +41,29 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws Exception
      */
     public function store(Request $request)
     {
         try {
             $post = $this->postsModel->store($request);
-            if(!$post){
+            if (!$post) {
                 return redirect()->route('posts.create');
             }
+//            dd($post);
             return redirect()->route('posts.index');
         } catch (Exception $e) {
             dd($e);
-            return redirect()->route('posts.create');
+            throw new Exception('Store A New Posts Failed');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -68,7 +74,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -79,8 +85,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -91,7 +97,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -7,7 +7,7 @@
 @section('content.description', '#TAG To Show And Share Your Life')
 
 @section('content.main')
-    <form method="post" action="{{ route('posts.store') }}">
+    <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data"> {{--enctype 表單中有file 所以加入--}}
         {{ csrf_field() }}
         <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
